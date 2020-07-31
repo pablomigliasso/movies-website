@@ -1,12 +1,11 @@
-from rest_framework import mixins, status, viewsets
-from rest_framework.decorators import action
+from rest_framework import status, viewsets
+
 from rest_framework.mixins import (
     ListModelMixin,
     RetrieveModelMixin,
-    UpdateModelMixin,
+    DestroyModelMixin,
 )
 from rest_framework.response import Response
-from django.http import HttpResponse
 
 from .models import (
     Movie,
@@ -21,7 +20,7 @@ from .serializers import (
 )
 
 
-class PersonViewSet(viewsets.GenericViewSet, ListModelMixin, RetrieveModelMixin,):
+class PersonViewSet(viewsets.GenericViewSet, ListModelMixin, RetrieveModelMixin, DestroyModelMixin,):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
 
@@ -46,7 +45,7 @@ class PersonViewSet(viewsets.GenericViewSet, ListModelMixin, RetrieveModelMixin,
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class MovieViewSet(viewsets.GenericViewSet, ListModelMixin, RetrieveModelMixin,):
+class MovieViewSet(viewsets.GenericViewSet, ListModelMixin, RetrieveModelMixin, DestroyModelMixin,):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
 
