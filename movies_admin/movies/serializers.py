@@ -149,7 +149,15 @@ class MovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ('id', 'title', 'release_year', 'people',)
+        fields = (
+            'id',
+            'title',
+            'release_year',
+            'people',
+            'casting',
+            'directors',
+            'producers',
+        )
 
 
 class RolesSerializer(serializers.ModelSerializer):
@@ -166,4 +174,13 @@ class PersonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Person
-        fields = ('id', 'first_name', 'last_name', 'aliases', 'roles',)
+        fields = (
+            'id',
+            'first_name',
+            'last_name',
+            'aliases',
+            'roles',
+            'movies_as_actor_or_actress',
+            'movies_as_director',
+            'movies_as_producer',
+        )

@@ -1,10 +1,5 @@
 from rest_framework import status, viewsets
-
-from rest_framework.mixins import (
-    ListModelMixin,
-    RetrieveModelMixin,
-    DestroyModelMixin,
-)
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
 from .models import (
@@ -20,9 +15,10 @@ from .serializers import (
 )
 
 
-class PersonViewSet(viewsets.GenericViewSet, ListModelMixin, RetrieveModelMixin, DestroyModelMixin,):
+class PersonViewSet(viewsets.ModelViewSet,):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def partial_update(self, request, *args, **kwargs):
         person = self.get_object()
@@ -45,9 +41,10 @@ class PersonViewSet(viewsets.GenericViewSet, ListModelMixin, RetrieveModelMixin,
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class MovieViewSet(viewsets.GenericViewSet, ListModelMixin, RetrieveModelMixin, DestroyModelMixin,):
+class MovieViewSet(viewsets.ModelViewSet,):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def partial_update(self, request, *args, **kwargs):
         movie = self.get_object()
