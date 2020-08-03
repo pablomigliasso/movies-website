@@ -130,7 +130,7 @@ class MovieTests(BaseTests):
 
     def test_get_movies(self):
         """
-        Ensure we can get a list of people.
+        Ensure we can get a list of movies.
         """
         self.client.logout()
 
@@ -141,7 +141,7 @@ class MovieTests(BaseTests):
 
     def test_get_person(self):
         """
-        Ensure we can get an existing person.
+        Ensure we can get an existing movie.
         """
         self.client.logout()
 
