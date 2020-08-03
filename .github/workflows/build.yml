@@ -27,4 +27,6 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        python movies_admin/manage.py test
+        cd movies_admin
+        python manage.py test
+        cd ..
