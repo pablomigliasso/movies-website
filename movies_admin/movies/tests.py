@@ -139,7 +139,7 @@ class MovieTests(BaseTests):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
 
-    def test_get_person(self):
+    def test_get_movie(self):
         """
         Ensure we can get an existing movie.
         """
