@@ -43,7 +43,6 @@ class PersonTests(BaseTests):
         url = reverse('people-list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)
 
     def test_get_person(self):
         """
@@ -137,7 +136,6 @@ class MovieTests(BaseTests):
         url = reverse('movies-list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)
 
     def test_get_movie(self):
         """
