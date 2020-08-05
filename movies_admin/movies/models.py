@@ -72,11 +72,30 @@ class MoviePeopleRoles(models.Model):
         return self.person_role.__str__()
 
 
+class MovieManager(models.Manager):
+    use_in_migrations = True
+
+    def create_new_movie(self, data):
+        people_ary = data.pop('people', [])
+
+        movie = Movie.objects.create(**data)
+
+        for person_id in people_ary:
+            person = Person.objects.get(pk=int(person_id))
+            for role in person.roles.all():
+                person_role = PersonRoles.objects.filter(person=person, role=role).first()
+                MoviePeopleRoles.objects.create(movie=movie, person_role=person_role)
+
+        return movie
+
+
 class Movie(models.Model):
     title = models.CharField(_('Title'), max_length=100, null=False, blank=False)
     release_year = models.DateField(null=False)
 
     people = models.ManyToManyField(PersonRoles, related_name='movies', through=MoviePeopleRoles)
+
+    objects = MovieManager()
 
     class Meta:
         verbose_name = _('Movie')
@@ -101,12 +120,28 @@ class Movie(models.Model):
         return self.staff(PRODUCER_ROLE)
 
 
+class PersonManager(models.Manager):
+    use_in_migrations = True
+
+    def create_new_person(self, data):
+        roles_ary = data.pop('roles', [])
+
+        person = Person.objects.create(**data)
+
+        for role_id in roles_ary:
+            PersonRoles.objects.create(person=person, role=Role.objects.get(pk=int(role_id)))
+
+        return person
+
+
 class Person(models.Model):
     first_name = models.CharField(_('First Name'), max_length=50, null=False, blank=False)
     last_name = models.CharField(_('Last Name'), max_length=50, null=False, blank=False)
     aliases = models.CharField(_('Aliases'), max_length=50, null=True, blank=True)
 
     roles = models.ManyToManyField(Role, related_name='people', through=PersonRoles)
+
+    objects = PersonManager()
 
     class Meta:
         verbose_name = _('Person')
